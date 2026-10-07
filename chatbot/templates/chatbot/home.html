@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Student Support · Gemini style</title>
+    <!-- Google Font & simple icon set (Font Awesome) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f7f8fc; /* soft background similar to modern AI interfaces */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            line-height: 1.5;
+            color: #1e1f2a;
+        }
+
+        /* main card – clean, rounded, subtle shadow, max-width like Gemini */
+        .chat-card {
+            width: 100%;
+            max-width: 800px;
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.08), 0 8px 18px -6px rgba(0, 0, 0, 0.02);
+            padding: 2rem 2rem 2rem 2rem;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(2px);
+        }
+
+        /* on very small screens reduce padding */
+        @media (max-width: 480px) {
+            .chat-card {
+                padding: 1.5rem 1.25rem;
+                border-radius: 1.5rem;
+            }
+            body {
+                padding: 0.75rem;
+            }
+        }
+
+        /* header area with icon and title */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .header-icon {
+            font-size: 2rem;
+            color: #1a73e8; /* Gemini / Google blue */
+            background: #eef3fe;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #1e1f2a;
+            line-height: 1.2;
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .header-icon {
+                width: 2.5rem;
+                height: 2.5rem;
+                font-size: 1.6rem;
+            }
+        }
+
+        /* form – modern, clean */
+        .query-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: row;
+            gap: 0.75rem;
+            align-items: center;
+            background: #ffffff;
+            border: 1px solid #e2e7f0;
+            border-radius: 4rem;
+            padding: 0.25rem 0.25rem 0.25rem 1.5rem;
+            transition: border 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.01);
+        }
+
+        .input-group:focus-within {
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.12);
+        }
+
+        .input-group input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0.9rem 0;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            color: #1e1f2a;
+            min-width: 0; /* prevents overflow on small screens */
+        }
+
+        .input-group input::placeholder {
+            color: #8a92a6;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        .input-group button {
+            background: #1a73e8;
+            border: none;
+            border-radius: 3rem;
+            color: white;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 0.9rem 1.8rem;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 6px 14px -4px rgba(26, 115, 232, 0.3);
+            letter-spacing: 0.01em;
+            flex-shrink: 0;
+        }
+
+        .input-group button:hover {
+            background: #1557b0;
+        }
+
+        .input-group button:active {
+            transform: scale(0.98);
+            background: #0f4a9a;
+        }
+
+        .input-group button i {
+            font-size: 0.95rem;
+        }
+
+        /* remove default button outline but keep accessibility */
+        .input-group button:focus-visible {
+            outline: 2px solid #0b2d5c;
+            outline-offset: 2px;
+        }
+
+        /* small responsive tweaks */
+        @media (max-width: 560px) {
+            .input-group {
+                flex-direction: column;
+                background: transparent;
+                border: none;
+                padding: 0;
+                gap: 0.75rem;
+                box-shadow: none;
+            }
+
+            .input-group input {
+                width: 100%;
+                background: #ffffff;
+                border: 1px solid #e2e7f0;
+                border-radius: 4rem;
+                padding: 0.9rem 1.5rem;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.01);
+            }
+
+            .input-group input:focus {
+                border-color: #1a73e8;
+                box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.12);
+                outline: none;
+            }
+
+            .input-group button {
+                width: 100%;
+                border-radius: 4rem;
+                justify-content: center;
+                padding: 1rem 1.8rem;
+            }
+        }
+
+        /* response section – clean and airy, Gemini-like */
+        .response-section {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            animation: fadeIn 0.25s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .response-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: #5e6b7c;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .response-label i {
+            color: #1a73e8;
+            font-size: 1rem;
+        }
+
+        .response-bubble {
+            background: #f2f6fe;
+            border-radius: 1.5rem;
+            padding: 1.5rem 1.8rem;
+            border: 1px solid #dbe4f0;
+            box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.02);
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #111827;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .response-bubble pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
+            font-size: 1rem;
+            margin: 0;
+            color: #1e1f2a;
+            background: transparent;
+            line-height: 1.6;
+        }
+
+        /* error state */
+        .error-section {
+            margin-top: 0.5rem;
+            background: #fff5f5;
+            border-radius: 1.25rem;
+            padding: 1.25rem 1.5rem;
+            border-left: 5px solid #d32f2f;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .error-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: #b91c1c;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .error-label i {
+            color: #d32f2f;
+        }
+
+        .error-message {
+            color: #991b1b;
+            font-size: 1rem;
+            padding-left: 0.25rem;
+            font-weight: 450;
+        }
+
+        /* subtle footer / divider (optional) */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e2e7f0, transparent);
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        /* remove default pre background from user agent */
+        pre {
+            background: none;
+            border: none;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="chat-card">
+
+        <!-- Header with icon -->
+        <div class="header">
+            <div class="header-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h1>Student Support</h1>
+        </div>
+
+        <!-- Chat form -->
+        <form method="POST" class="query-form">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="text" name="message" placeholder="Ask your question..." required autocomplete="off" aria-label="Ask your question">
+                <button type="submit">
+                    <i class="fas fa-paper-plane"></i> Send
+                </button>
+            </div>
+        </form>
+
+        <!-- Gemini response block (conditional) -->
+        {% if response %}
+        <div class="response-section">
+            <div class="response-label">
+                <i class="fas fa-sparkles"></i> Gemini
+            </div>
+            <div class="response-bubble">
+                <pre>{{ response }}</pre>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Error block (conditional) -->
+        {% if error %}
+        <div class="error-section">
+            <div class="error-label">
+                <i class="fas fa-exclamation-circle"></i> Error
+            </div>
+            <div class="error-message">
+                {{ error }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- optional subtle divider when no content – keeps layout balanced -->
+        {% if not response and not error %}
+        <div class="divider"></div>
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html
